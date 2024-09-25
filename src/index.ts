@@ -14,7 +14,7 @@ export interface Options {
    * Relative to root directory
    * If JSON file doesn't exist, it will be created.
    *
-   * @see https://developers.google.com/workspace/guides/create-credentials
+   * @see https://developers.google.com/workspace/guides/create-credentials#create_credentials_for_a_service_account
    * @default "<rootDir>/tokens/credentials.json"
    */
   keyFile?: string;
