@@ -1,0 +1,25 @@
+{
+  "name": "google-sheet-to-csv",
+  "version": "1.0.0",
+  "description": "Download a Google Sheet locally as a csv file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blakenetz/Google-Sheet-to-CSV.git"
+  },
+  "keywords": [
+    "google",
+    "drive",
+    "sheets",
+    "csv"
+  ],
+  "author": "Blake Netzeband <blake.netzeband@gmail.com> (https://blakenetzeband.com)",
+  "license": "GNU General Public License v3.0",
+  "bugs": {
+    "url": "https://github.com/blakenetz/Google-Sheet-to-CSV/issues"
+  },
+  "homepage": "https://github.com/blakenetz/Google-Sheet-to-CSV#readme"
+}
