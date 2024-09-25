@@ -19,7 +19,7 @@ npm i google-sheet-to-csv
    - Save the unique id
 3. Create [credentials](https://developers.google.com/workspace/guides/create-credentials#create_credentials_for_a_service_account) for service account
 4. [Share](https://support.google.com/drive/answer/2494822?hl=en#) google sheet with service account
-   - Service account email will resemble something along the lines of `<projectName>@<projectId>.iam.gserviceaccount.com`
+   - Service account email will resemble something along the lines of `[projectName]@[projectId].iam.gserviceaccount.com`
    - Set the role as `viewer`
 
 ### Authorization
@@ -28,7 +28,7 @@ There are 2 authorization strategies: credentials.json or ENV variables.
 
 #### Credentials.json
 
-Move the JSON file to the `<rootDir>/tokens` directory. If storing in a different location, update the `keyFile` option.
+Move the JSON file to the `[rootDir]/tokens` directory. If storing in a different location, update the `keyFile` option.
 
 #### ENV variables
 
@@ -50,6 +50,6 @@ If this is not included, it's extracted from the project id.
 | name       | description                                                                                                                            | type    | required | default value                       |
 | :--------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------- | -------- | ----------------------------------- |
 | fileId     | id of the Google sheet                                                                                                                 | string  | true     | n/a                                 |
-| keyFile    | Filepath of the JSON file for service account credentials. Relative to root directory. If JSON file doesn't exist, it will be created. | string  | false    | "<rootDir>/tokens/credentials.json" |
-| outputFile | Filepath of the outputted CSV file. Relative to root directory                                                                         | string  | false    | "<rootDir>/assets/output.csv"       |
+| keyFile    | Filepath of the JSON file for service account credentials. Relative to root directory. If JSON file doesn't exist, it will be created. | string  | false    | "[rootDir]/tokens/credentials.json" |
+| outputFile | Filepath of the outputted CSV file. Relative to root directory                                                                         | string  | false    | "[rootDir]/assets/output.csv"       |
 | verbose    | Whether to display logs or not                                                                                                         | boolean | false    | false                               |
