@@ -1,9 +1,8 @@
-import { GoogleSheetToCSV, Store } from "../src/util";
+import { GoogleSheetToCSV, Store } from "@/util";
 import fs from "fs";
 import fsPromise from "fs/promises";
 import { google } from "googleapis";
 
-// Mock fs and fs.promises
 jest.mock("fs");
 jest.mock("fs/promises");
 jest.mock("googleapis");

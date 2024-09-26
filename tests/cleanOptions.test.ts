@@ -1,4 +1,4 @@
-import { cleanOptions, Options } from "../src/util";
+import { cleanOptions, Options } from "@/util";
 
 describe("cleanOptions", () => {
   beforeEach(() => {
