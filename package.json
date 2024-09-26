@@ -1,6 +1,6 @@
 {
   "name": "google-sheet-to-csv",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Download a Google Sheet locally as a csv file",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
