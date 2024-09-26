@@ -8,17 +8,31 @@ describe("validateFilePath", () => {
     jest.clearAllMocks();
   });
 
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
+  const spy = jest.spyOn(fs, "mkdirSync");
+
   it("Should return true when filePath exists", () => {
     (fs.existsSync as jest.Mock).mockReturnValueOnce(true);
 
-    expect(validateFilePath("foo/bar")).toBeTruthy();
+    validateFilePath("foo/bar");
+
+    expect(spy).not.toHaveBeenCalled();
   });
 
   it("Should create directory when missing", () => {
     (fs.existsSync as jest.Mock).mockReturnValueOnce(false);
-    const spy = jest.spyOn(fs, "mkdirSync");
 
     validateFilePath("foo/bar/baz.tsx");
+
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+  it("Strips invalid paths", () => {
+    (fs.existsSync as jest.Mock).mockReturnValueOnce(false);
+
+    validateFilePath("/foo//bar/baz.tsx");
 
     expect(spy).toHaveBeenCalledTimes(1);
   });

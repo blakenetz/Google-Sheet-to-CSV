@@ -117,13 +117,12 @@ export function cleanOptions(options: Options): Store {
  * Ensure path exists and if not, creates required directories
  */
 export function validateFilePath(filePath: string) {
-  if (fs.existsSync(filePath)) return true;
+  if (fs.existsSync(filePath)) return;
 
-  const parts = filePath.split(path.sep);
-  // start on first index and work backwards
-  for (let i = 1; i < parts.length - 1; i++) {
-    const subPath = path.resolve(...parts.slice(0, i));
-    if (!fs.existsSync(subPath)) fs.mkdirSync(subPath);
+  try {
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -140,6 +139,7 @@ export class GoogleSheetToCSV {
     this.log("Looking for keyFile...");
     if (!fs.existsSync(this.store.keyFile)) {
       this.log("keyFile file doesn't exist. Regenerating from env path...");
+      validateFilePath(this.store.keyFile);
 
       const credentials = {
         type: "service_account",
