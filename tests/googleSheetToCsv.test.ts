@@ -15,13 +15,17 @@ describe("GoogleSheetToCSV", () => {
       keyFile: "test-keyfile.json",
       outputFile: "test-output.csv",
       projectName: "test-project",
-      showLogs: true,
+      verbose: true,
       fileId: "some-file-id",
       projectId: "test-project-123",
       privateKeyId: "private_key_id",
       privateKey: "private_key\\nlinebreak",
       clientId: "client_id",
     };
+  });
+
+  afterAll(() => {
+    jest.clearAllMocks();
   });
 
   it("should generate credentials JSON if keyFile doesn't exist", () => {
@@ -82,7 +86,7 @@ describe("GoogleSheetToCSV", () => {
   });
 
   it("should not log messages if verbose is false", () => {
-    store.showLogs = false;
+    store.verbose = false;
     const consoleLogSpy = jest.spyOn(console, "log");
 
     const googleSheetToCSV = new GoogleSheetToCSV(store);

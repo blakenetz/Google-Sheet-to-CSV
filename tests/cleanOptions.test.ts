@@ -24,7 +24,7 @@ describe("cleanOptions", () => {
       keyFile: "test-keyfile.json",
       outputFile: "test-output.csv",
       projectName: "test-project",
-      showLogs: true,
+      verbose: true,
       fileId: "some-file-id",
       projectId: "test-project-123",
       privateKeyId: "private_key_id",

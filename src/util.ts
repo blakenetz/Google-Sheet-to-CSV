@@ -39,17 +39,31 @@ export interface Options {
   verbose?: boolean;
 }
 
-export interface Store {
-  keyFile: string;
-  outputFile: string;
-  projectName: string;
-  showLogs: boolean;
-  fileId: string;
+export interface EnvVariables {
+  /**
+   * Defined when creating Google Project
+   * If not provided, it is extracted from `projectId`
+   */
+  projectName?: string;
+  /**
+   * Defined when creating Google Project
+   */
   projectId: string;
-  privateKeyId: string;
-  privateKey: string;
+  /**
+   * Unique id of service account
+   */
   clientId: string;
+  /**
+   * Credentials key id of service account
+   */
+  privateKeyId: string;
+  /**
+   * Credentials key of service account
+   */
+  privateKey: string;
 }
+
+export interface Store extends NonNullable<Options>, EnvVariables {}
 
 export function cleanOptions(options: Options): Store {
   const appDir = path.dirname(require.main.filename);
@@ -57,7 +71,7 @@ export function cleanOptions(options: Options): Store {
     options.keyFile ?? path.resolve(appDir, "tokens", "credentials.json");
   const outputFile =
     options.outputFile ?? path.resolve(appDir, "assets", "output.csv");
-  const showLogs = options.verbose ?? false;
+  const verbose = options.verbose ?? false;
 
   const {
     GOOGLE_PROJECT_NAME,
@@ -89,14 +103,29 @@ export function cleanOptions(options: Options): Store {
   return {
     keyFile,
     outputFile,
-    projectName,
-    showLogs,
+    verbose,
     fileId: options.fileId,
+    projectName,
     projectId: GOOGLE_PROJECT_ID,
     privateKeyId: GOOGLE_PRIVATE_KEY_ID,
     privateKey: GOOGLE_PRIVATE_KEY,
     clientId: GOOGLE_CLIENT_ID,
   };
+}
+
+/**
+ * Ensure path exists and if not, creates required directories
+ */
+export function validateFilePath(filePath: string) {
+  if (fs.existsSync(filePath)) return true;
+
+  const parts = filePath.split(path.sep);
+  // start on first index and work backwards
+  for (let i = 1; i < parts.length - 1; i++) {
+    console.log(parts[i]);
+    const subPath = path.resolve(...parts.slice(0, i));
+    if (!fs.existsSync(subPath)) fs.mkdirSync(subPath);
+  }
 }
 
 export class GoogleSheetToCSV {
@@ -175,7 +204,7 @@ export class GoogleSheetToCSV {
   };
 
   log = (...msg: any[]) => {
-    if (this.store.showLogs) {
+    if (this.store.verbose) {
       console.log("🌞 ", ...msg);
     }
   };
