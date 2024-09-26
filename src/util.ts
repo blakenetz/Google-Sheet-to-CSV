@@ -108,7 +108,8 @@ export class GoogleSheetToCSV {
     this.credentials = this.generateCredentialsJSON();
   }
 
-  public generateCredentialsJSON() {
+  generateCredentialsJSON = () => {
+    this.log("Looking for keyFile...");
     if (!fs.existsSync(this.store.keyFile)) {
       this.log("keyFile file doesn't exist. Regenerating from env path...");
 
@@ -137,22 +138,25 @@ export class GoogleSheetToCSV {
     }
 
     return this.store.keyFile;
-  }
+  };
 
-  private async authorize(): Promise<GoogleAuth<JSONClient>> {
+  authorize = async (): Promise<GoogleAuth<JSONClient>> => {
     const authScopes = ["https://www.googleapis.com/auth/drive"];
 
+    this.log(`Authorizing...`);
     return new google.auth.GoogleAuth({
       keyFile: this.credentials,
       scopes: authScopes,
     });
-  }
+  };
 
   /**
    * Downloads a file from drive
    * @see https://developers.google.com/drive/api/guides/manage-downloads
    **/
-  private async fetchFile(client: GoogleAuth<JSONClient>) {
+  fetchFile = async (client: GoogleAuth<JSONClient>) => {
+    this.log(`Fetching file...`);
+
     google.options({ auth: client });
     const drive = google.drive({ version: "v3" });
 
@@ -160,21 +164,26 @@ export class GoogleSheetToCSV {
       fileId: this.store.fileId,
       mimeType: "text/csv",
     }) as GaxiosPromise<string>;
-  }
+  };
 
-  private async writeFile(file: Awaited<GaxiosPromise<string>>) {
+  writeFile = async (file: Awaited<GaxiosPromise<string>>) => {
+    this.log(`Writing file to ${this.store.outputFile}...`);
+
     fsPromise.writeFile(this.store.outputFile, file.data, {
       encoding: "utf-8",
     });
-  }
+  };
 
-  public log(...msg: any[]) {
+  log = (...msg: any[]) => {
     if (this.store.showLogs) {
       console.log("🌞 ", ...msg);
     }
-  }
+  };
 
-  public async run() {
-    this.authorize().then(this.fetchFile).then(this.writeFile);
-  }
+  run = async () => {
+    this.authorize()
+      .then(this.fetchFile)
+      .then(this.writeFile)
+      .then(() => this.log(`Success!`));
+  };
 }
