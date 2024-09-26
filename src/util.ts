@@ -1,4 +1,4 @@
-import { auth, GoogleAuth } from "google-auth-library";
+import { GoogleAuth } from "google-auth-library";
 import { google } from "googleapis";
 import path from "path";
 import fsPromise from "fs/promises";
@@ -77,11 +77,11 @@ export function cleanOptions(options: Options): Store {
   const projectName = GOOGLE_PROJECT_NAME ?? GOOGLE_PROJECT_ID.split("-")[0];
 
   // ensure remaining env variables exist
-  const missing = [
+  const missing = Object.keys({
     GOOGLE_PRIVATE_KEY_ID,
     GOOGLE_PRIVATE_KEY,
     GOOGLE_CLIENT_ID,
-  ].filter((v) => !Boolean(v));
+  }).filter((key) => (!process.env[key] ? key : false));
   if (missing.length) {
     throw Error("Missing env secrets: " + missing.join(", "));
   }
@@ -108,7 +108,7 @@ export class GoogleSheetToCSV {
     this.credentials = this.generateCredentialsJSON();
   }
 
-  private generateCredentialsJSON() {
+  public generateCredentialsJSON() {
     if (!fs.existsSync(this.store.keyFile)) {
       this.log("keyFile file doesn't exist. Regenerating from env path...");
 
