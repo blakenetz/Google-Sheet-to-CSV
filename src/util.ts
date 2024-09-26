@@ -122,7 +122,6 @@ export function validateFilePath(filePath: string) {
   const parts = filePath.split(path.sep);
   // start on first index and work backwards
   for (let i = 1; i < parts.length - 1; i++) {
-    console.log(parts[i]);
     const subPath = path.resolve(...parts.slice(0, i));
     if (!fs.existsSync(subPath)) fs.mkdirSync(subPath);
   }
